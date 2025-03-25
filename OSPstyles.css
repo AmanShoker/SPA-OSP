@@ -1,0 +1,196 @@
+body {
+    background-image: url("images/background.png");
+    background-size: cover;
+    font-family: Verdana, sans-serif;
+    color: #333;
+}
+
+/* Nav Bar */
+
+header {
+    margin-top: 25px;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #fff;
+    border:1px solid #333;
+    border-radius: 50px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+li {
+    float: left;
+}
+
+li a {
+    margin: 7px; 
+    display: block;
+    color: #333;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 50px; 
+    transition: background-color 0.3s ease;
+}
+
+li a:hover {
+    background-color: #dcdcdc;
+}
+
+li img {
+    width: 45px;
+    height: auto;
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
+.dropdown {
+    float: center;
+    overflow: hidden;
+}
+
+ul li ul.dropdown {
+    background-color: #fff;
+    display: none;
+    position: absolute;
+    max-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 0px;
+}
+
+ul li:hover ul.dropdown {
+    display: block;
+} 
+
+#signIn-Up {
+    float: right;
+}
+
+#signIn-Up a {
+    display: inline-block;
+}
+
+#signIn-Up a.sign-in {
+    background-color: #7C93C3;
+    color: white;
+}
+
+#signIn-Up a.sign-up {
+    background-color: #A25772; 
+    color: white;
+}
+
+#signIn-Up a.signOut {
+    background-color: #cb4444; 
+    color: white;
+}
+
+#signIn-Up a.sign-in:hover {
+    background-color: #7085b1; 
+}
+
+#signIn-Up a.sign-up:hover {
+    background-color: #96516a; 
+}
+
+#signIn-Up a.signOut:hover {
+    background-color: #b71212; 
+}
+
+/* Search */
+#searchToggle #searchBar {
+    display: none;
+}
+
+#searchToggle #searchBar.show {
+    display: block;
+}
+
+/* Homepage */
+#welcome {
+    margin: 75px;
+    text-align: center;
+}
+
+#welcome h1 {
+    font-size: 5rem;
+    color: #333;
+}
+
+/* About Us */
+#about-us {
+    padding: 50px 10%;
+    text-align: center;
+}
+
+#about-us h2 {
+    font-size: 3rem;
+    margin-bottom: 40px;
+    color: #333;
+}
+
+.team-members {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.member-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.member-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.member-card img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border: 1px solid #333;
+}
+
+.member-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.member-card .bio {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.member-card .contact {
+    font-size: 0.9rem;
+    color: #333;
+}
+
+footer {
+    background-color: #cedcee;
+    text-align: center;
+    padding: 10px;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #302e2e;
+    border-top: 1px solid #ffffff;
+}
