@@ -28,6 +28,7 @@ session_start();
                     <option value="shopping">Shopping</option>
                     <option value="trips">Trips</option>
                     <option value="trucks">Trucks</option>
+                    <option value="reviews">Reviews</option>
                 </select>
 
                 <input type="submit" value="Submit">
@@ -44,6 +45,7 @@ session_start();
             require "ShoppingCartTableController.php";
             require "TripTableController.php";
             require "TruckTableController.php";
+            require "ReviewTableController.php";
 
             $UTC = New UserTableController();
             $ITC = New ItemTableController();
@@ -52,6 +54,7 @@ session_start();
             $STC = New ShoppingTableController();
             $TripTC = New TripTableController();
             $TruckTC = New TruckTableController();
+            $RTC = New ReviewTableController();
 
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if (isset($_POST['tables'])){
@@ -93,6 +96,11 @@ session_start();
                             echo "You selected the Trucks table.<br><br>";
                             $result = $TruckTC->getAllRecords($conn);
                             $info = $TruckTC->getTableInfo($conn);
+                            break;
+                        case 'reviews':
+                            echo "You selected the Reviews table.<br><br>";
+                            $result = $RTC->getAllRecords($conn);
+                            $info = $RTC->getTableInfo($conn);
                             break;
                         default:
                             echo "Invalid selection.<br><br>";
@@ -178,6 +186,9 @@ session_start();
                             break;
                         case 'trucks':
                             $TruckTC->deleteRecordPKey($conn, $primaryKey, $pID);
+                            break;
+                        case 'reviews':
+                            $RTC->deleteRecordPKey($conn, $primaryKey, $pID);
                             break;
                         default:
                             echo "Invalid table selection.<br><br>";

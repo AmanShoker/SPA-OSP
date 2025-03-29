@@ -7,11 +7,11 @@ require "TruckTableController.php";
 require "UserTableController.php";
 require "ItemTableController.php";
 
-
 //Foreign keys included
 require "TripTableController.php";
 require "OrderTableController.php";
 require "ShoppingCartTableController.php";
+require "ReviewTableController.php";
 
 //Define controllers
 $STC = New ShoppingTableController();
@@ -21,6 +21,7 @@ $ITC = New ItemTableController();
 $TripTC = New TripTableController();
 $OTC = New OrderTableController();
 $SCTC = New ShoppingCartTableController();
+$RTC = New ReviewTableController();
 
 //Populate DB with tables in order based on foreign keys
 $STC->createTable($conn);
@@ -30,6 +31,7 @@ $ITC->createTable($conn);
 $TripTC->createTable($conn);
 $OTC->createTable($conn);
 $SCTC->createTable($conn);
+$RTC->createTable($conn);
 
 //Populate Tables with records that must exist before any user interaction
 
