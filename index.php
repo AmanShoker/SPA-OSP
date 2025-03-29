@@ -114,8 +114,8 @@
                 templateUrl : 'ShoppingCart.php'})
                 .when('/checkout', {
                 templateUrl : 'Checkout.php'})
-                .when('/processPayment', {
-                templateUrl : 'ProcessPayment.php'})
+                .when('/invoiceSummary', {
+                templateUrl : 'invoiceSummary.php'})
                 .otherwise({redirectTo: '/'});
                 });
             
@@ -139,7 +139,7 @@
                     headers: {'Content-Type': undefined}, transformRequest: angular.identity
                     }).then(
                         function(response){
-                            $location.path('processPayment');
+                            $location.path('invoiceSummary');
                         }
                     )
                 }
@@ -147,8 +147,12 @@
             
             app.run(function($rootScope, $templateCache, $route) {
                 $rootScope.$on('$routeChangeStart', function(event, next, current) {
-                    if (next.templateUrl === 'Checkout.php')
-                    $templateCache.remove(next.templateUrl);
+                    if (next.templateUrl === 'Checkout.php'){
+                        $templateCache.remove(next.templateUrl);
+                    }
+                    else if (next.templateUrl === 'invoiceSummary.php'){
+                        $templateCache.remove(next.templateUrl);
+                    }
                  });
 
                 $rootScope.$on('$viewContentLoaded', function(){
