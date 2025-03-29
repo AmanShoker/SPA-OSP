@@ -44,12 +44,4 @@ session_start();
             ?>
 
             <p id="demo"></p>
-            <script>
-                $(":input[type=number]").bind('keyup mouseup', function () {
-                    let priceId = $(this).attr("updateFieldId");
-                    let quantity = $(this).val();
-                    let price = $(this).attr("itemPrice");
-                    document.getElementById(priceId).value = "$" + (price*quantity);       
-                 });
-            </script>
         </main>

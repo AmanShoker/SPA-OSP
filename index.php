@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="PaymentStyles.css">
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
         <script>
         function allowDrop(ev) {
@@ -99,6 +100,7 @@
         
         <div ng-view></div>
         <script>
+        var mapLoads = 0;
         var app = angular.module('ospApp', ['ngRoute']);
             app.config(function($routeProvider) {
                 $routeProvider
@@ -125,30 +127,88 @@
                     }).then(
                         function(response){
                             $location.path('checkout');
-                            initMap(); 
                         }
                     )
                 }
             });
 
-        </script>
+            app.controller('checkoutFormCtrl', function ($scope, $http, $location) {
+                $scope.submitForm = function () {
+                    var formData = new FormData(document.querySelector('#checkoutForm'));
+                    $http.post('saveCheckOutDataToSession.php', formData, {
+                    headers: {'Content-Type': undefined}, transformRequest: angular.identity
+                    }).then(
+                        function(response){
+                            $location.path('processPayment');
+                        }
+                    )
+                }
+            });
+            
+            app.run(function($rootScope, $templateCache, $route) {
+                $rootScope.$on('$routeChangeStart', function(event, next, current) {
+                    if (next.templateUrl === 'Checkout.php')
+                    $templateCache.remove(next.templateUrl);
+                 });
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const searchLink = document.getElementById('searchLink');
-                const searchForm = document.getElementById('searchBar');
+                $rootScope.$on('$viewContentLoaded', function(){
+                    if ($('#map').length) {
+                        mapLoads = 0;
+                        initMap();
+                        
+                    }
+                    if ($('#cartForm').length){
+                        $(":input[type=number]").bind('keyup mouseup', function () {
+                            let priceId = $(this).attr("updateFieldId");
+                            let quantity = $(this).val();
+                            let price = $(this).attr("itemPrice");
+                            document.getElementById(priceId).value = "$" + (price*quantity);       
+                        });
+                    }
 
-                searchLink.addEventListener('click', function(e) {
-                    searchForm.classList.toggle('show');
+                    if ($('#checkoutForm').length){
+                                $("#paymentOption").on("change", function(){
+                                    $("#paymentFields").html("");
+                                    if ($(this).val() == "Credit Card"){
+                                        $("#paymentFields").append('<br><label for="cardNumber">Credit Card Number:</label> <input type="text" id="cardNumber" name="cardNumber" required><br><br>');
+                                        $("#paymentFields").append('<label for="expiryDate">Expiry Date:</label> <input type="month" id="expiryDate" name="expiryDate" required><br><br>');
+                                        $("#paymentFields").append(' <label for="cvv">CVV:</label> <input type="text" id="cvv" name="cvv" required>');
+                                    }
+                                    else if ($(this).val() == "Debit Card"){
+                                        $("#paymentFields").append('<br><label for="cardNumber">Debit Card Number:</label> <input type="text" id="cardNumber" name="cardNumber" required><br><br>');
+                                        $("#paymentFields").append('<label for="expiryDate">Expiry Date:</label> <input type="month" id="expiryDate" name="expiryDate" required><br><br>');
+                                        $("#paymentFields").append(' <label for="cvv">CVV:</label> <input type="text" id="cvv" name="cvv" required>');
+                                    }
+
+                                    else if ($(this).val() == "Gift Card"){
+                                        $("#paymentFields").append('<br><label for="cardNumber">Gift Card Number:</label> <input type="text" id="cardNumber" name="cardNumber" required><br><br>');
+                                    }
+                                });
+                            function updateDeliveryDate() {
+                                const shippingMethod = document.getElementById('shippingMethod').value;
+                                const deliveryDateInput = document.getElementById('deliveryDate');
+                                const today = new Date();
+                                
+                                shippingCost = shippingMethod === 'express' ? 50 : 0;
+                                document.getElementsByName('shippingCost')[0].value = shippingCost;
+
+                                const deliveryDate = new Date(today);
+                                if (shippingMethod === 'express') {
+                                    deliveryDate.setDate(today.getDate() + 1);
+                                } else {
+                                    deliveryDate.setDate(today.getDate() + 7);
+                                }
+                                
+                                const formattedDate = deliveryDate.toISOString().split('T')[0];
+                                deliveryDateInput.setAttribute('min', formattedDate);
+                                deliveryDateInput.value = formattedDate;
+                            }
+                            updateDeliveryDate();
+                            document.getElementById('shippingMethod').addEventListener('change', updateDeliveryDate);
+                    }
                 });
             });
-        </script>
-
-        <script async
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDc8t67_v0mNHJg-ISUBvdKg2vihgVIZJU&loading=async&libraries=visualization">
-        </script>
-
-        <script>
+        
                 var userLat;
                 var userLng;
                 var userPositionMarker;
@@ -161,9 +221,9 @@
                 var directionRenderer;
 
                 var options;
-                var mapLoads = 0;
 
             async function initMap(){
+                
                 const userIconUrl = "https://img.buzzfeed.com/buzzfeed-static/static/enhanced/webdr06/2013/4/11/1/enhanced-buzz-24965-1365659349-6.jpg?downsize=700%3A%2A&output-quality=auto&output-format=auto";
                 const branchIconUrl = "https://cdn-icons-png.flaticon.com/512/5439/5439360.png";
 
@@ -177,8 +237,8 @@
                 };
 
                 if (mapLoads == 0){
-                navigator.geolocation.getCurrentPosition(showPosition);
-                mapLoads = 1;
+                    navigator.geolocation.getCurrentPosition(showPosition);
+                    mapLoads = 1;
                 }
                 else{
                 setBranchLocMarker();
@@ -192,6 +252,7 @@
                     center:{lat:userLat,lng:userLng}
                     }
                 map = new google.maps.Map(document.getElementById('map'), options);
+                
                 userPositionMarker = new google.maps.Marker({position:{lat:userLat,lng:userLng}, map:map, icon:userIcon});
                 setBranchLocMarker();
                 }
@@ -239,6 +300,21 @@
                     })
                 }
         }
+        </script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const searchLink = document.getElementById('searchLink');
+                const searchForm = document.getElementById('searchBar');
+
+                searchLink.addEventListener('click', function(e) {
+                    searchForm.classList.toggle('show');
+                });
+            });
+        </script>
+        
+        <script async
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDc8t67_v0mNHJg-ISUBvdKg2vihgVIZJU&loading=async&libraries=visualization">
         </script>
 
     </body>
