@@ -24,7 +24,8 @@
         var data = ev.dataTransfer.getData("text");
         window.open("addNewShoppingCartItem.php?itemId=" + data);
         }
-    </script>
+        </script>
+    
     </head>
 
     <body>
@@ -115,7 +116,20 @@
                 templateUrl : 'ProcessPayment.php'})
                 .otherwise({redirectTo: '/'});
                 });
-
+            
+            app.controller('shoppingCartFormCtrl', function ($scope, $http, $location) {
+                $scope.submitForm = function () {
+                    var formData = new FormData(document.querySelector('#cartForm'));
+                    $http.post('saveCartDataToSession.php', formData, {
+                    headers: {'Content-Type': undefined}, transformRequest: angular.identity
+                    }).then(
+                        function(response){
+                            $location.path('checkout');
+                            initMap(); 
+                        }
+                    )
+                }
+            });
 
         </script>
 
@@ -129,5 +143,103 @@
                 });
             });
         </script>
+
+        <script async
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDc8t67_v0mNHJg-ISUBvdKg2vihgVIZJU&loading=async&libraries=visualization">
+        </script>
+
+        <script>
+                var userLat;
+                var userLng;
+                var userPositionMarker;
+                var map;
+
+                var selectedBranchLat;
+                var selectedBranchLong;
+                var selectedBranchMarker;
+
+                var directionRenderer;
+
+                var options;
+                var mapLoads = 0;
+
+            async function initMap(){
+                const userIconUrl = "https://img.buzzfeed.com/buzzfeed-static/static/enhanced/webdr06/2013/4/11/1/enhanced-buzz-24965-1365659349-6.jpg?downsize=700%3A%2A&output-quality=auto&output-format=auto";
+                const branchIconUrl = "https://cdn-icons-png.flaticon.com/512/5439/5439360.png";
+
+                const userIcon ={
+                    url: userIconUrl,
+                    scaledSize: new google.maps.Size(50, 50)
+                };
+                const branchIcon ={
+                    url: branchIconUrl,
+                    scaledSize: new google.maps.Size(50, 50)
+                };
+
+                if (mapLoads == 0){
+                navigator.geolocation.getCurrentPosition(showPosition);
+                mapLoads = 1;
+                }
+                else{
+                setBranchLocMarker();
+                }
+
+                function showPosition(position){
+                userLat = position.coords.latitude;
+                userLng = position.coords.longitude;
+                options = {
+                    zoom:10,
+                    center:{lat:userLat,lng:userLng}
+                    }
+                map = new google.maps.Map(document.getElementById('map'), options);
+                userPositionMarker = new google.maps.Marker({position:{lat:userLat,lng:userLng}, map:map, icon:userIcon});
+                setBranchLocMarker();
+                }
+
+                function setBranchLocMarker(){
+                    if (typeof selectedBranchMarker == "object" ){
+                        selectedBranchMarker.setMap(null);
+                    }
+                    let selectedBranch = document.getElementById("branches").value;
+                    if (selectedBranch == "Downtown Toronto Branch"){
+                        selectedBranchLat = 43.659561;
+                        selectedBranchLong = -79.400377;
+                    }
+                    else if (selectedBranch == "Etobicoke Branch"){
+                        selectedBranchLat = 43.669121;
+                        selectedBranchLong = -79.540505;
+                    }
+                    else if (selectedBranch == "Mississauga Branch"){
+                        selectedBranchLat = 43.596023;
+                        selectedBranchLong = -79.694742;
+                    }
+                    selectedBranchMarker = new google.maps.Marker({position:{lat:selectedBranchLat,lng:selectedBranchLong}, map:map, icon:branchIcon});
+                    //selectedBranchMarker.setMap(map);
+                    console.log();
+
+                    createPathBetween(selectedBranchMarker.position,userPositionMarker.position);
+                }
+
+                function createPathBetween(start, end){
+                    const request = {
+                        origin: start,
+                        destination: end,
+                        travelMode: google.maps.DirectionsTravelMode.WALKING
+                    }
+                    if (typeof directionRenderer == "object"){
+                        directionRenderer.setMap(null);
+                    }
+                    directionService = new google.maps.DirectionsService();
+                    directionRenderer = new google.maps.DirectionsRenderer();
+                    directionRenderer.setMap(map);
+                    directionService.route(request, function(response, status){
+                        if (status === google.maps.DirectionsStatus.OK){
+                            directionRenderer.setDirections(response);
+                        }
+                    })
+                }
+        }
+        </script>
+
     </body>
 </html>
