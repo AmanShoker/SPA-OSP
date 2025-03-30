@@ -38,6 +38,9 @@
             else if (window.location.href.includes('added=False')){
                 alert("Item Already contained in shopping cart");
             }
+            else if (window.location.href.includes('created=True')){
+                alert("Review Successfully Created");
+            }
     </script>
     
     <header>
@@ -55,7 +58,17 @@
                     </ul>
                 </li>
                 <li id="shoppingCart" ondrop="drop(event)" ondragover="allowDrop(event)"><a href="#!shoppingCart">Shopping Cart</a></li>
-                <li><a href="#">Reviews</a></li>
+                <li>
+                    <a href="#">Reviews</a>
+                    <ul class="dropdown">
+                        <li><a href="#!reviews">View Reviews</a></li>
+                        <?php 
+                        if (isset($_SESSION['username'])){
+                            echo "<li><a href='#!createReview'>Create Review</a></li>";
+                        }
+                        ?>
+                    </ul>
+                </li>
                 <?php 
                     require "connect.php";
                     require "UserTableController.php";
@@ -80,7 +93,7 @@
                     <li id="searchToggle">
                         <a id="searchLink">Search</a>
 
-                        <form id="searchBar" action="Search.php" method="GET">
+                        <form  ng-submit='submitForm()' ng-controller='searchFormCtrl' id="searchBar">
                             <input type="text" name="searchQuery" placeholder="Search by Order-Id">
                             <button type="submit" class="search">Search</button>
                         </form>
@@ -108,6 +121,12 @@
                 templateUrl : 'Homepage.php'})
                 .when('/aboutus', {
                 templateUrl : 'AboutUsPage.php'})
+                .when('/reviews', {
+                templateUrl : 'Reviews.php'})
+                .when('/createReview', {
+                templateUrl : 'CreateReview.php'})
+                .when('/searchResult', {
+                templateUrl : 'SearchResult.php'})
                 .when('/catalogue', {
                 templateUrl : 'Catalogue.php'})
                 .when('/shoppingCart', {
@@ -118,7 +137,24 @@
                 templateUrl : 'invoiceSummary.php'})
                 .otherwise({redirectTo: '/'});
                 });
-            
+
+                app.controller('searchFormCtrl', function ($scope, $http, $location, $templateCache, $route) {
+                $scope.submitForm = function () {
+                    var formData = new FormData(document.querySelector('#searchBar'));
+                    $http.post('ProcessSearch.php', formData, {
+                    headers: {'Content-Type': undefined}, transformRequest: angular.identity
+                    }).then(
+                        function(response){
+                            $templateCache.remove('SearchResult.php');
+                            if ($location.path() === '/searchResult'){
+                                $route.reload();
+                            }
+                            $location.path('searchResult');
+                        }
+                    )
+                }
+            });
+
             app.controller('shoppingCartFormCtrl', function ($scope, $http, $location) {
                 $scope.submitForm = function () {
                     var formData = new FormData(document.querySelector('#cartForm'));

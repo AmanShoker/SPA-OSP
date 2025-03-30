@@ -11,7 +11,7 @@ session_start();
     <body>
         <header>
             <h2>DB MAINTENANCE MODE (SELECT)</h2>
-            <button onclick="window.location.href='Homepage.php';">Back To Home</button>
+            <button onclick="window.location.href='index.php';">Back To Home</button>
             <br><br>
         </header>
 
