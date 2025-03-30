@@ -11,7 +11,7 @@ session_start();
     <body>
         <header>
             <h2>DB MAINTENANCE MODE (DELETE)</h2>
-            <button onclick="window.location.href='index.php';">Back To Home</button>
+            <button onclick="window.location.href='OSP-main.php';">Back To Home</button>
             <br><br>
         </header>
 

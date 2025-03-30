@@ -17,15 +17,11 @@ $balance = 0;
 
 $salt = base64_encode(random_bytes(12));
 if ($UTC->insertRecord($conn,$fullName,$telNo,$email,$address,$cityCode,$username,$password,$balance,$salt)) {
-    header("Location: SignIn.html");
+    header("Location: OSP-begin.html#!/signIn");
     exit();
 } else {
-    header("Location: SignUp.html?error=insertfailed");
+    header("Location: OSP-begin.html#!/signUp?signUpError=insertfailed");
     exit();
 }
-
-
-
-
 $conn->close();
 ?>

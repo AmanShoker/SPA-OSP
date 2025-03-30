@@ -13,6 +13,6 @@
  $review = $_POST["review"];
  $rating = $_POST["rating"];
  $RTC->createReview($conn,$userId,$review,$rating);
- header("Location: index.php#!/createReview?created=True");
+ header("Location: OSP-main.php#!/createReview?created=True");
  exit();
 ?>

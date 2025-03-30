@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="ospApp">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>OSP</title>
+        <link rel="icon" href="images/shopping_icon.png" type="image/png">
+        <link rel="stylesheet" href="SignIn-UpStyles.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+    </head>
+    <body>
+        <script>
+            if (window.location.href.includes('signInError=insertfailed')){
+                alert("Incorrect Username or Password. Please Try Again.");
+                window.close();
+            }     
+            else if (window.location.href.includes('signUpError=insertfailed')){
+                alert("Failed to create user. Please try different username or email.");
+                window.close();
+            }
+            
+            function validatePasswords() {
+                const password = document.getElementById('password').value;
+                const repassword = document.getElementById('repassword').value;
+
+                if (password !== repassword) {
+                    console.log("do not match");
+                    alert("Passwords do not Match! Please Try Again");
+                    return false;
+                } return true;
+            }
+        </script>
+
+        <script>
+            var app = angular.module('ospApp', ['ngRoute']);
+            app.config(function($routeProvider) {
+                $routeProvider
+                .when('/signIn', {
+                templateUrl : 'SignIn.html'})
+                .when('/signUp', {
+                templateUrl : 'SignUp.html'})
+                .otherwise({redirectTo: '/signIn'});
+                });
+        </script>
+        <div ng-view></div>
+    </body>
+</html

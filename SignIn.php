@@ -12,11 +12,11 @@ if ($UTC->validLogin($conn,$username,$password)){
     $passwordHash = $UTC->validLogin($conn,$username,$password);
     $_SESSION['username'] = $username;
     $_SESSION['password'] = $passwordHash;
-    header("Location: index.php");
+    header("Location: OSP-main.php");
     exit();
 } else {
-    header("Location: SignIn.html?error=insertfailed");
+    header("Location: OSP-begin.html#!/signIn?signInError=insertfailed");
     exit();
 }
-
+$conn->close();
 ?>

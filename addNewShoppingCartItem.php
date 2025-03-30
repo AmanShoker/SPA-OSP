@@ -25,11 +25,11 @@ $departmentCode=$ItemRecord["departmentCode"];
 
 if (($SCTC->getSpecificCartItem($conn,$userId,$itemId))->num_rows == 0){
     $SCTC->addToCart($conn,$itemId,$userId,$itemName,$price,$madeIn,$departmentCode);
-    header("Location: index.php#!/catalogue?added=True");
+    header("Location: OSP-main.php#!/catalogue?added=True");
     exit();
 }
 else{
-    header("Location: index.php#!/catalogue?added=False");
+    header("Location: OSP-main.php#!/catalogue?added=False");
     exit();
 }
 ?>

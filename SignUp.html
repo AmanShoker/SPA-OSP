@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Sign Up</title>
-        <link rel="icon" href="images/shopping_icon.png" type="image/png">
-        <link rel="stylesheet" href="SignIn-UpStyles.css">
-    </head>
-    <body>
+
         <section class="sign">
             <div class="sign_card">
                 <h1>Sign Up</h1>
@@ -38,28 +29,6 @@
 
                     <button type="submit">Sign Up</button>
                 </form>
-                <p>Already have an account? <a href="signin.html">Sign-in</a></p>
+                <p>Already have an account? <a href="#!signIn">Sign-in</a></p>
             </div>
         </section>
-
-        <script>
-            function validatePasswords() {
-                const password = document.getElementById('password').value;
-                const repassword = document.getElementById('repassword').value;
-
-                if (password !== repassword) {
-                    alert("Passwords do not Match! Please Try Again");
-                    return false;
-                } return true;
-            }
-
-
-            const urlParams = new URLSearchParams(window.location.search);
-            const error = urlParams.get('error');
-
-            if (error === 'insertfailed') {
-                alert("Failed to create user. Please try different username or email.");
-            }
-        </script>
-    </body>
-</html>

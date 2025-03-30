@@ -74,7 +74,6 @@
         
 
         $storeCode = 1456;
-        $tripPrice = 50;
         $distance = 25;
         $paymentCode = 14145;
 
@@ -89,7 +88,7 @@
         $Record = $RecordArray->fetch_assoc();
         $destination=$Record["homeAddress"];
 
-        $TripTC->insertRecord($conn, $selectedBranch, $destination, $distance, $truckId, $tripPrice);
+        $TripTC->insertRecord($conn, $selectedBranch, $destination, $distance, $truckId, $shippingCost);
         $STC->insertRecord($conn,$storeCode, $Total);
 
         $RecordArray = $TripTC->getTripId($conn, $destination, $truckId);

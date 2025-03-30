@@ -3,6 +3,6 @@ session_start(); // Start the session
 $_SESSION = array();
 session_destroy();
 
-header("Location: index.php");
+header("Location: OSP-main.php");
 exit();
 ?>
