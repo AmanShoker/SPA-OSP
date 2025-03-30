@@ -34,9 +34,11 @@
     <script>
             if (window.location.href.includes('added=True')){
                 alert("Successfully added to your shopping cart");
+                window.close();
             }     
             else if (window.location.href.includes('added=False')){
                 alert("Item Already contained in shopping cart");
+                window.close();
             }
             else if (window.location.href.includes('created=True')){
                 alert("Review Successfully Created");
