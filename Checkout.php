@@ -35,6 +35,7 @@ session_start();
                     <option value="Credit Card">Credit Card</option>
                     <option value="Debit Card">Debit Card</option>
                     <option value="Gift Card">Gift Card</option>
+                    <option value="Cash">Cash</option>
                 </select>
                 <div id="paymentFields">
                 </div>
