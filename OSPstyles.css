@@ -129,6 +129,7 @@ ul li:hover ul.dropdown {
 #about-us {
     padding: 50px 10%;
     text-align: center;
+    width: auto;
 }
 
 #about-us h2 {

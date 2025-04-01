@@ -171,6 +171,11 @@ button:hover:not(#searchToggle button) {
     color: #dd2110;
 }
 
+h3 {
+    font-size: larger;
+    color:#A25772;
+}
+
 /* Search */
 #searchToggle #searchBar {
     display: none;

@@ -31,7 +31,7 @@
         $subTotal = substr($cartInfo, $subTotal_pos_start+11, $subTotal_pos_end);   
         $Total = $subTotal * 1.13 + $shippingCost;
 
-        $cartInfo_pos_end = strpos($cartInfo,"<div");
+        $cartInfo_pos_end = strpos($cartInfo,"</div>");
         $cartInfoNew = substr($cartInfo,0,$cartInfo_pos_end);
         
     
@@ -40,21 +40,21 @@
         $_SESSION["checkOutInformation"] .= '<div class="receipt_container">
             <h1>Payment Receipt</h1>
             <div class="receipt_details">
-                <h2>Order Summary</h2>';
+                <h3>Order Summary</h3>';
         
                 $_SESSION["checkOutInformation"] .= $cartInfoNew;
                
         
                 $_SESSION["checkOutInformation"] .= "
-                <div class='total_price'>SUBTOTAL: $$subTotal<br>SHIPPING: $$shippingCost <br>TOTAL: $$Total
+                <div class='total_price'>SHIPPING: $$shippingCost <br>TOTAL: $$Total
                 </div>
 
-                <h2>Payment Details</h2>
+                <h3>Payment Details</h3>
                 <p><strong>Selected Branch:</strong> $selectedBranch</p>
                 <p><strong>Payment Option:</strong> $paymentOption</p>
             </div>
             <div class='thank_you'>
-                <p>Thank you for shopping with us! Your order will be delivered $deliveryDate</p>
+                <p style='color:red;font-size:12px;'>Thank you for shopping with us! Your order will be delivered $deliveryDate</p>
             </div>
         </div>";
 
