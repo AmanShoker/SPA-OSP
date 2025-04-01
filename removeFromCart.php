@@ -15,6 +15,6 @@ $userId=$userIdRecord["userId"];
 
 $itemId = $_GET['itemId'];
 $SCTC->removeFromCart($conn,$itemId,$userId);
-header("Location: index.php#!/shoppingCart");
+header("Location: OSP-main.php#!/shoppingCart");
 
 ?>

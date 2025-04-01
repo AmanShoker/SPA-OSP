@@ -192,6 +192,9 @@
                     else if (next.templateUrl === 'invoiceSummary.php'){
                         $templateCache.remove(next.templateUrl);
                     }
+                    else if (next.templateUrl === 'ShoppingCart.php'){
+                        $templateCache.remove(next.templateUrl);
+                    }
                  });
 
                 $rootScope.$on('$viewContentLoaded', function(){
